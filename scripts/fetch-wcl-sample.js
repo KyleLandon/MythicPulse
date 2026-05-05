@@ -14,8 +14,16 @@ const https = require('https');
 const fs = require('fs');
 const path = require('path');
 
-const CLIENT_ID = 'a1b597c4-827b-4d19-ba8b-6723644bcdaf';
-const CLIENT_SECRET = 'VegICgNlUq6SWjaK1XTftAWGDn7eapt36Ccat3aV';
+const CLIENT_ID = process.env.WCL_CLIENT_ID;
+const CLIENT_SECRET = process.env.WCL_CLIENT_SECRET;
+
+if (!CLIENT_ID || !CLIENT_SECRET) {
+  console.error('Missing environment variables: WCL_CLIENT_ID and WCL_CLIENT_SECRET');
+  console.error('Set them before running:');
+  console.error('  set WCL_CLIENT_ID=your-client-id');
+  console.error('  set WCL_CLIENT_SECRET=your-client-secret');
+  process.exit(1);
+}
 
 const OUTPUT_DIR = path.join(__dirname, '..', 'sample-data');
 

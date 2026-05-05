@@ -6,6 +6,9 @@ node_modules/
 .env.local
 .env.production
 
+# Secrets
+Secrets/
+
 # Sample data (large JSON files)
 sample-data/
 
