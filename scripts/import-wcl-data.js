@@ -43,12 +43,17 @@ function inferRole(player, healingBySource, damageTakenByTarget, damageDoneBySou
   const healingShare = totalHealing > 0 ? healing / totalHealing : 0;
   const damageTakenShare = totalDamageTaken > 0 ? damageTaken / totalDamageTaken : 0;
 
-  if (HEALER_CLASSES.includes(cls) && healingShare > 0.35) {
-    return { role: 'healer', spec: `${HEALER_SPEC_NAMES[cls] || 'Unknown'} ${cls}` };
-  }
-
+  // Tank check FIRST — tanks often self-heal a lot (Brewmaster, Blood DK),
+  // which can falsely trigger the healer check. A player who takes >40% of
+  // group damage is the tank, period.
   if (TANK_CLASSES.includes(cls) && damageTakenShare > 0.35) {
     return { role: 'tank', spec: `${TANK_SPEC_NAMES[cls] || 'Unknown'} ${cls}` };
+  }
+
+  // Healer: does >35% of group healing AND is a healer-capable class
+  // AND doesn't take tank-level damage
+  if (HEALER_CLASSES.includes(cls) && healingShare > 0.35 && damageTakenShare < 0.30) {
+    return { role: 'healer', spec: `${HEALER_SPEC_NAMES[cls] || 'Unknown'} ${cls}` };
   }
 
   return { role: 'dps', spec: cls };
