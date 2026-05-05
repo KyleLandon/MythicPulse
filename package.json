@@ -1,0 +1,14 @@
+{
+  "name": "mythicpulse",
+  "version": "0.1.0",
+  "private": true,
+  "description": "MythicPulse — WoW M+ Player Performance Analysis Platform",
+  "scripts": {
+    "fetch-sample": "node scripts/fetch-wcl-sample.js",
+    "import-data": "node scripts/import-wcl-data.js"
+  },
+  "dependencies": {
+    "@supabase/supabase-js": "^2.49.0",
+    "ws": "^8.20.0"
+  }
+}
